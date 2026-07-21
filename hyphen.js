@@ -1,9 +1,9 @@
 /** Text hyphenation in Javascript.
  *  Copyright (C) 2024 Yevhen Tiurin (yevhentiurin@gmail.com)
- *  https://github.com/ytiurin/hyphen
+ *  https://github.com/mlengse/hyphen
  *
  *  Released under the ISC license
- *  https://github.com/ytiurin/hyphen/blob/master/LICENSE
+ *  https://github.com/mlengse/hyphen/blob/master/LICENSE
  */
 (function (root, factory) {
   if (typeof define === "function" && define.amd) {

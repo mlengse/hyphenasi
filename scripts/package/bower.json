@@ -3,7 +3,7 @@
   "description": "Text hyphenation in Javascript.",
   "main": "hyphen.js",
   "authors": [
-    "Eugene Tiurin <yevhentiurin@gmail.com> (https://github.com/ytiurin)"
+    "mLengse (medotsys@gmail.com)"
   ],
   "license": "ISC",
   "keywords": [
@@ -12,7 +12,7 @@
     "hyphenation",
     "hyphenator"
   ],
-  "homepage": "https://github.com/ytiurin/hyphen",
+  "homepage": "https://github.com/mlengse/hyphen",
   "ignore": [
     "**/.*",
     "node_modules",

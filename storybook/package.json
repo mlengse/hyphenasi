@@ -9,7 +9,7 @@
     "start": "node ../scripts/build-package.js && npm run storybook",
     "storybook": "storybook dev -p 6006"
   },
-  "author": "",
+  "author": "mLengse (medotsys@gmail.com)",
   "license": "ISC",
   "private": true,
   "devDependencies": {

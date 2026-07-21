@@ -4,5 +4,5 @@ export default create({
   base: "light",
 
   brandTitle: "hyphen on GitHub",
-  brandUrl: "https://github.com/ytiurin/hyphen",
+  brandUrl: "https://github.com/mlengse/hyphen",
 });

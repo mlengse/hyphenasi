@@ -4,7 +4,7 @@
   "description": "Text hyphenation in Javascript.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ytiurin/hyphen"
+    "url": "git+https://github.com/mlengse/hyphen"
   },
   "keywords": [
     "hyphen",
@@ -12,10 +12,10 @@
     "hyphenation",
     "hyphenator"
   ],
-  "author": "Eugene Tiurin <yevhentiurin@gmail.com> (https://github.com/ytiurin)",
+  "author": "mLengse (medotsys@gmail.com)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ytiurin/hyphen/issues"
+    "url": "https://github.com/mlengse/hyphen/issues"
   },
   "homepage": "https://ytiurin.github.io/hyphen",
   "browser": "./hyphen.js"
