@@ -43,8 +43,8 @@ function keyOrDefault(object, key, defaultValue, test) {
   return defaultValue;
 }
 
-function exceptionsFromDefinition(excetionsList, hyphenChar) {
-  return excetionsList.reduce(function (exceptions, exception) {
+function exceptionsFromDefinition(exceptionsList, hyphenChar) {
+  return exceptionsList.reduce(function (exceptions, exception) {
     exceptions["~" + exception.replace(/\-/g, "")] = exception.replace(
       /\-/g,
       hyphenChar

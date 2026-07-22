@@ -23,27 +23,21 @@ function tex2js(texcode) {
 
     if (pointerTermDefinition) {
       jschunk = jschunk0.replace(/(\S+)/g, '"$&",');
-    }
-    if (REG_VAR.test(jschunk0)) {
-      jschunk = jschunk0.replace(REG_VAR, "var $1;");
-    }
-    if (REG_VAR_VAL.test(jschunk0)) {
-      jschunk = jschunk0.replace(REG_VAR_VAL, 'var $1 = "$2";');
-    }
-    if (REG_VAR_OPEN.test(jschunk0)) {
-      jschunk = jschunk0.replace(REG_VAR_OPEN, "var $1 = [");
-      pointerTermDefinition = true;
-    }
-    if (REG_VAR_OPEN_TERM.test(jschunk0)) {
+    } else if (REG_VAR_OPEN_CLOSE.test(jschunk0)) {
+      jschunk = jschunk0.replace(REG_VAR_OPEN_CLOSE, 'var $1 = "$2";');
+    } else if (REG_VAR_OPEN_TERM.test(jschunk0)) {
       jschunk = jschunk0.replace(REG_VAR_OPEN_TERM, 'var $1 = ["$2",');
       pointerTermDefinition = true;
-    }
-    if (REG_TERM_CLOSE.test(jschunk0)) {
+    } else if (REG_VAR_VAL.test(jschunk0)) {
+      jschunk = jschunk0.replace(REG_VAR_VAL, 'var $1 = "$2";');
+    } else if (REG_VAR_OPEN.test(jschunk0)) {
+      jschunk = jschunk0.replace(REG_VAR_OPEN, "var $1 = [");
+      pointerTermDefinition = true;
+    } else if (REG_TERM_CLOSE.test(jschunk0)) {
       jschunk = jschunk0.replace(REG_TERM_CLOSE, '"$1"];');
       pointerTermDefinition = false;
-    }
-    if (REG_VAR_OPEN_CLOSE.test(jschunk0)) {
-      jschunk = jschunk0.replace(REG_VAR_OPEN_CLOSE, 'var $1 = "$2";');
+    } else if (REG_VAR.test(jschunk0)) {
+      jschunk = jschunk0.replace(REG_VAR, "var $1;");
     }
     jsline[0] = jschunk;
     jscode.push(jsline.join("//"));

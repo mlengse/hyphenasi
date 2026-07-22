@@ -56,11 +56,16 @@ const makeGlobalName = tag =>
 const evalTex = texCode => {
   var patterns, hyphenation, input;
 
-  return (() => {
-    eval(tex2js(texCode));
+  try {
+    return (() => {
+      eval(tex2js(texCode));
 
-    return [patterns, hyphenation, input];
-  })();
+      return [patterns, hyphenation, input];
+    })();
+  } catch (e) {
+    console.error("Failed to parse TeX pattern:", e.message);
+    return [[], [], undefined];
+  }
 };
 
 const purify = (patterns, hyphenation) => [
@@ -84,13 +89,18 @@ buildFiles(
 
     if (input !== undefined) {
       let hyphenation2;
+      const inputPath = pathTo(DIR_TEX, input);
 
-      [patterns, hyphenation2] = evalTex(
-        readFileSync(pathTo(DIR_TEX, input), "utf8")
-      );
+      if (!existsSync(inputPath)) {
+        console.warn(`Warning: Input file not found: ${input}`);
+      } else {
+        [patterns, hyphenation2] = evalTex(
+          readFileSync(inputPath, "utf8")
+        );
 
-      if (hyphenation2) {
-        hyphenation = (hyphenation || []).concat(hyphenation2);
+        if (hyphenation2) {
+          hyphenation = (hyphenation || []).concat(hyphenation2);
+        }
       }
     }
 
@@ -107,7 +117,7 @@ buildFiles(
       JSON.stringify(hyphenation) +
       "];";
 
-    return prettier.format(
+    return prettier.format( // TODO: prettier v3 returns Promise — wrap with async IIFE when upgrading
       makeUMD(resultCode, makeGlobalName(tagFromFilename(filename))),
       Object.assign(JSON.parse(readFileSync(".prettierrc.json")), {
         parser: "babel"

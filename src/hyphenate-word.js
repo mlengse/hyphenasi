@@ -37,7 +37,7 @@ export function hyphenateWord(
   hyphenChar
 ) {
   var levels = new Array(text.length + 1),
-    loweredText = ("." + text.toLocaleLowerCase() + ".").split(""),
+    loweredText = ("." + text.toLowerCase() + ".").split(""),
     wordSlice,
     letter,
     triePtr,

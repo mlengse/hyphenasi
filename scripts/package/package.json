@@ -2,6 +2,13 @@
   "name": "hyphen",
   "version": "1.10.6",
   "description": "Text hyphenation in Javascript.",
+  "main": "./hyphen.js",
+  "module": "./hyphen.js",
+  "exports": {
+    ".": "./hyphen.js",
+    "./patterns/*": "./patterns/*.js",
+    "./*": "./*/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mlengse/hyphen"

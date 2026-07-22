@@ -17,3 +17,31 @@ describe("Basic text", () => {
     expect(hyphenate(basicText)).toBe(predictable);
   });
 });
+
+describe("Edge cases", () => {
+  test("Empty string", () => {
+    expect(hyphenate("")).toBe("");
+  });
+
+  test("Single character", () => {
+    expect(hyphenate("a")).toBe("a");
+  });
+
+  test("Word shorter than minWordLength", () => {
+    expect(hyphenate("hi")).toBe("hi");
+  });
+
+  test("Text with only spaces", () => {
+    expect(hyphenate("   ")).toBe("   ");
+  });
+
+  test("Text with unicode characters", () => {
+    const result = hyphenate("café résumé");
+    expect(result).toContain("-");
+  });
+
+  test("Multiple spaces between words", () => {
+    const result = hyphenate("hello  beautiful");
+    expect(result).toBe("hel-lo  beau-ti-ful");
+  });
+});

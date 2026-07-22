@@ -1,3 +1,8 @@
+// Matches non-letter characters:
+// \s           - whitespace (spaces, tabs, newlines)
+// [!-@[-`{-~] - ASCII punctuation: !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+// \u2013-\u203C - Unicode: en dash (–) through double exclamation mark (‼)
+// (?!')        - excludes single quote from punctuation match
 var isNotLetter = RegExp.prototype.test.bind(
   /\s|(?![\'])[\!-\@\[-\`\{-\~\u2013-\u203C]/
 );

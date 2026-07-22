@@ -19,7 +19,7 @@ export function start(
 ) {
   function done() {
     DEV: allTime = new Date() - allTime;
-    resolveNewText(newText);
+    resolveNewText(textParts.join(""));
 
     DEV: if (debug) {
       console.log(
@@ -35,7 +35,7 @@ export function start(
     }
   }
 
-  var newText = "",
+  var textParts = [],
     fragments,
     readText = createTextReader(
       createHyphenationVerifier(
@@ -81,7 +81,7 @@ export function start(
         fragments[1] = cache[cacheKey];
       }
 
-      newText += fragments[0] + fragments[1];
+      textParts.push(fragments[0], fragments[1]);
       DEV: processedN++;
     }
 
@@ -101,6 +101,6 @@ export function start(
     });
   } else {
     nextTick();
-    return newText;
+    return textParts.join("");
   }
 }

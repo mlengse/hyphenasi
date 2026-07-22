@@ -36,7 +36,8 @@ function createPatternTrie(patterns) {
     symb,
     patternTrie = [{}],
     nextPattern = createIterator(patterns),
-    weightsTable = [];
+    weightsTable = [],
+    weightsMap = new Map();
 
   while ((pattern = nextPattern())) {
     var ptr = patternTrie,
@@ -68,11 +69,12 @@ function createPatternTrie(patterns) {
 
     weights = weights.join("");
 
-    let weightsIndex = weightsTable.indexOf(weights);
+    let weightsIndex = weightsMap.get(weights);
 
-    if (weightsIndex === -1) {
+    if (weightsIndex === undefined) {
       weightsTable.push(weights);
       weightsIndex = weightsTable.length - 1;
+      weightsMap.set(weights, weightsIndex);
     }
 
     ptr[1] = weightsIndex;
