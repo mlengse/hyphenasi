@@ -116,5 +116,5 @@ dist
 
 # project
 /package
-
+*.code-workspace
 .idea/

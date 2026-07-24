@@ -1,3 +1,5 @@
+import { levelsToMarkers } from "./markers.js";
+
 function createCharIterator(str) {
   var i = 0;
 
@@ -29,15 +31,9 @@ function createStringSlicer(str) {
   return [next, isFirstCharacter];
 }
 
-export function hyphenateWord(
-  text,
-  levelsTable,
-  patternTrie,
-  debug,
-  hyphenChar
-) {
+export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
   var levels = new Array(text.length + 1),
-    loweredText = ("." + text.toLowerCase() + ".").split(""),
+    loweredText = ("." + loweredText + ".").split(""),
     wordSlice,
     letter,
     triePtr,
@@ -50,7 +46,7 @@ export function hyphenateWord(
     isFirstCharacter,
     nextLetter;
 
-  for (var i = levels.length; i--;) levels[i] = 0;
+  for (var i = levels.length; i--; ) levels[i] = 0;
 
   slicer = createStringSlicer(loweredText);
   nextSlice = slicer[0];
@@ -75,26 +71,20 @@ export function hyphenateWord(
       patternLevelsIndex = -1;
 
       switch (Object.prototype.toString.call(trieNode)) {
-        case '[object Array]':
+        case "[object Array]":
           triePtr = trieNode[0];
           patternLevelsIndex = trieNode[1];
           break;
-        case '[object Object]':
+        case "[object Object]":
           triePtr = trieNode;
           break;
-        case '[object Number]':
+        case "[object Number]":
           patternLevelsIndex = trieNode;
           break;
       }
 
       if (patternLevelsIndex < 0) {
         continue;
-      }
-
-      if (!levelsTable[patternLevelsIndex].splice) {
-        levelsTable[patternLevelsIndex] = levelsTable[patternLevelsIndex].slice(
-          ""
-        );
       }
 
       patternLevels = levelsTable[patternLevelsIndex];
@@ -111,30 +101,13 @@ export function hyphenateWord(
     levels.length - 2
   ] = 0;
 
-  var hyphenatedText = "";
-
   DEV: {
-    var leveledText = "",
-      debugHyphenatedText = "";
-  }
-
-  for (var i = 0; i < levels.length; i++) {
-    hyphenatedText += (levels[i] % 2 === 1 ? hyphenChar : "") + text.charAt(i);
-
-    DEV: if (debug) {
-      debugHyphenatedText += (levels[i] % 2 === 1 ? "-" : "") + text.charAt(i);
-      leveledText += (levels[i] > 0 ? levels[i] : "") + text.charAt(i);
-    }
-  }
-
-  DEV: if (debug)
-    console.log.apply(
-      console,
-      [text, "->"]
-        .concat(levels)
-        .concat(["->", leveledText])
-        .concat(["->", debugHyphenatedText])
+    console.log(
+      loweredText.join(""),
+      levels.join(""),
+      levelsToMarkers(levels).join()
     );
+  }
 
-  return hyphenatedText;
+  return levelsToMarkers(levels);
 }

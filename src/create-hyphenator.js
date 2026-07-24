@@ -1,13 +1,12 @@
 import { start } from "./start.js";
+import { insertChar, markersFromExceptionsDefinition } from "./markers.js";
 
 var SETTING_DEFAULT_ASYNC = false,
-  SETTING_DEFAULT_DEBUG = false,
   SETTING_DEFAULT_EXCEPTIONS = [],
   SETTING_DEFAULT_HTML = true,
   SETTING_DEFAULT_HYPH_CHAR = "\u00AD",
   SETTING_DEFAULT_MIN_WORD_LENGTH = 5,
   SETTING_NAME_ASYNC = "async",
-  SETTING_NAME_DEBUG = "debug",
   SETTING_NAME_EXCEPTIONS = "exceptions",
   SETTING_NAME_HTML = "html",
   SETTING_NAME_HYPH_CHAR = "hyphenChar",
@@ -43,6 +42,16 @@ function keyOrDefault(object, key, defaultValue, test) {
   return defaultValue;
 }
 
+function exceptionsFromMarkers(markers, hyphenChar) {
+  var exceptions = {};
+
+  for (var word in markers) {
+    exceptions["~" + word] = insertChar(word, hyphenChar, markers[word]);
+  }
+
+  return exceptions;
+}
+
 function exceptionsFromDefinition(exceptionsList, hyphenChar) {
   return exceptionsList.reduce(function (exceptions, exception) {
     exceptions["~" + exception.replace(/\-/g, "")] = exception.replace(
@@ -61,15 +70,15 @@ export function createHyphenator(patternsDefinition, options) {
       SETTING_DEFAULT_ASYNC
     ),
     caches = {},
-    debug = keyOrDefault(options, SETTING_NAME_DEBUG, SETTING_DEFAULT_DEBUG),
+    markersDict = {},
     exceptions = {},
     hyphenChar = keyOrDefault(
       options,
       SETTING_NAME_HYPH_CHAR,
       SETTING_DEFAULT_HYPH_CHAR
     ),
-    levelsTable = patternsDefinition[0].split(","),
-    patterns = JSON.parse(patternsDefinition[1]),
+    levelsTable = patternsDefinition[0],
+    patterns = patternsDefinition[1],
     minWordLength =
       keyOrDefault(
         options,
@@ -89,16 +98,23 @@ export function createHyphenator(patternsDefinition, options) {
   exceptions[cacheKey] = {};
 
   if (patternsDefinition[2]) {
-    exceptions[cacheKey] = exceptionsFromDefinition(
+    exceptions[cacheKey] = exceptionsFromMarkers(
       patternsDefinition[2],
       hyphenChar
     );
+
+    markersDict = patternsDefinition[2];
   }
 
   if (userExceptions && userExceptions.length) {
     exceptions[cacheKey] = extend(
       exceptions[cacheKey],
       exceptionsFromDefinition(userExceptions, hyphenChar)
+    );
+
+    markersDict = extend(
+      markersDict,
+      markersFromExceptionsDefinition(userExceptions)
     );
   }
 
@@ -113,8 +129,7 @@ export function createHyphenator(patternsDefinition, options) {
   return function (text, options) {
     options = options || {};
 
-    var localDebug = keyOrDefault(options, SETTING_NAME_DEBUG, debug),
-      localHyphenChar = keyOrDefault(
+    var localHyphenChar = keyOrDefault(
         options,
         SETTING_NAME_HYPH_CHAR,
         hyphenChar
@@ -130,7 +145,7 @@ export function createHyphenator(patternsDefinition, options) {
       cacheKey = localHyphenChar + localMinWordLength;
 
     if (!exceptions[cacheKey] && patternsDefinition[2]) {
-      exceptions[cacheKey] = exceptionsFromDefinition(
+      exceptions[cacheKey] = exceptionsFromMarkers(
         patternsDefinition[2],
         localHyphenChar
       );
@@ -144,6 +159,11 @@ export function createHyphenator(patternsDefinition, options) {
         exceptionsFromDefinition(localUserExceptions, localHyphenChar)
       );
 
+      markersDict = extend(
+        markersDict,
+        markersFromExceptionsDefinition(localUserExceptions)
+      );
+
       caches[cacheKey] = extend(caches[cacheKey], exceptions[cacheKey]);
     }
 
@@ -152,7 +172,7 @@ export function createHyphenator(patternsDefinition, options) {
       levelsTable,
       patterns,
       caches[cacheKey],
-      localDebug,
+      markersDict,
       localHyphenChar,
       skipHTML,
       localMinWordLength,

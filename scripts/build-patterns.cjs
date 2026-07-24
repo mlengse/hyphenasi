@@ -1,24 +1,22 @@
 const DIR_PATTERNS = "patterns";
 const DIR_TEX = "tex";
 
-const makeUMD = (code, globalName) => `(function (root, factory) {
+const makeUMD = (code, globalName) => `(function (root, exports) {
   if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
-    define([], factory);
+    define([], function () {
+      return exports;
+    });
   } else if (typeof module === "object" && module.exports) {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    module.exports = factory();
+    module.exports = exports;
   } else {
     // Browser globals (root is window)
-    root.${globalName} = factory();
+    root.${globalName} = exports;
   }
-})(this, function () {
-
-  ${code}
-
-});
+})(this, ${code});
 `;
 
 const { basename, dirname, join, resolve } = require("path");
@@ -29,7 +27,7 @@ const {
   readdirSync,
   writeFileSync
 } = require("fs");
-const prettier = require("prettier");
+const prettier = require("@prettier/sync");
 
 function buildFiles(arr, destPathFactory, contentFactory, done) {
   for (var item of arr) {
@@ -73,6 +71,19 @@ const purify = (patterns, hyphenation) => [
   (hyphenation || []).filter(a => a !== "")
 ];
 
+const markersFromExceptionsDefinition = exceptionsList =>
+  exceptionsList.reduce((markersDict, definition) => {
+    let i = 0,
+      markers = [];
+
+    while ((i = definition.indexOf("-", i + 1)) > -1) {
+      markers.push(i);
+    }
+
+    markersDict[definition.toLocaleLowerCase().replace(/\-/g, "")] = markers;
+
+    return markersDict;
+  }, {});
 /******************************************************************************/
 console.log(`Porting patterns`);
 
@@ -109,13 +120,17 @@ buildFiles(
     var [weightsTable, patternTrie] = createPatternTrie(patterns);
 
     const resultCode =
-      "return ['" +
-      weightsTable.join() +
-      "','" +
-      JSON.stringify(patternTrie).replace(/'/g, "\\'") +
-      "', " +
-      JSON.stringify(hyphenation) +
-      "];";
+      "[" +
+      JSON.stringify(
+        weightsTable.map(levels =>
+          levels.split("").map(level => parseInt(level))
+        )
+      ) +
+      "," +
+      JSON.stringify(patternTrie) +
+      ", " +
+      JSON.stringify(markersFromExceptionsDefinition(hyphenation)) +
+      "]";
 
     return prettier.format( // TODO: prettier v3 returns Promise — wrap with async IIFE when upgrading
       makeUMD(resultCode, makeGlobalName(tagFromFilename(filename))),
