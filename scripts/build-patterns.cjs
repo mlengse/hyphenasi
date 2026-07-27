@@ -132,7 +132,7 @@ buildFiles(
       JSON.stringify(markersFromExceptionsDefinition(hyphenation)) +
       "]";
 
-    return prettier.format( // TODO: prettier v3 returns Promise — wrap with async IIFE when upgrading
+    return prettier.format(
       makeUMD(resultCode, makeGlobalName(tagFromFilename(filename))),
       Object.assign(JSON.parse(readFileSync(".prettierrc.json")), {
         parser: "babel"

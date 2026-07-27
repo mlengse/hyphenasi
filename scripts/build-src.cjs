@@ -69,7 +69,7 @@ const prettierConfig = Object.assign(
   JSON.parse(readFileSync(FILENAME_PRETTIER_CONFIG)),
   { parser: "babel" }
 );
-source = prettier.format(source, prettierConfig); // TODO: prettier v3 returns Promise — await when upgrading
+source = prettier.format(source, prettierConfig);
 writeFileSync(FILENAME_BUNDLE, source);
 
 exec("npm run lint", (error, stdout, stderr) => {

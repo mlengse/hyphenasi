@@ -50,10 +50,13 @@ describe("User exceptions", () => {
   });
 
   test("User exceptions should be case insensitive", () => {
+    const caseInsensitiveHyphenate = createHyphenator(patterns, {
+      hyphenChar: "-",
+      exceptions: ["h-ello"]
+    });
     const text = "Hello HELLO";
-    const exception = "h-ello";
     const predictable = "H-ello H-ELLO";
 
-    expect(hyphenate(text)).toBe(predictable);
+    expect(caseInsensitiveHyphenate(text)).toBe(predictable);
   });
 });

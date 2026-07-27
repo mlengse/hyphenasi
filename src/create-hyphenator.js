@@ -153,13 +153,16 @@ export function createHyphenator(patternsDefinition, options) {
       caches[cacheKey] = extend(caches[cacheKey], exceptions[cacheKey]);
     }
 
+    var currentMarkersDict = markersDict;
+
     if (localUserExceptions && localUserExceptions.length) {
       exceptions[cacheKey] = extend(
         exceptions[cacheKey],
         exceptionsFromDefinition(localUserExceptions, localHyphenChar)
       );
 
-      markersDict = extend(
+      currentMarkersDict = extend(
+        {},
         markersDict,
         markersFromExceptionsDefinition(localUserExceptions)
       );
@@ -172,7 +175,7 @@ export function createHyphenator(patternsDefinition, options) {
       levelsTable,
       patterns,
       caches[cacheKey],
-      markersDict,
+      currentMarkersDict,
       localHyphenChar,
       skipHTML,
       localMinWordLength,

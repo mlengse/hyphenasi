@@ -10,18 +10,17 @@ describe("French hyphenation", () => {
   });
 
   test("Simple word: information", () => {
-    const result = hyphenate("information");
-    expect(result).toContain("-");
+    expect(hyphenate("information")).toBe("in-for-ma-tion");
   });
 
   test("Word with diacritics: répétition", () => {
-    const result = hyphenate("répétition");
-    expect(result).toContain("-");
+    expect(hyphenate("répétition")).toBe("ré-pé-ti-tion");
   });
 
   test("Sentence: Le petit prince est une œuvre magnifique", () => {
-    const result = hyphenate("Le petit prince est une œuvre magnifique");
-    expect(result).toContain("-");
+    expect(hyphenate("Le petit prince est une œuvre magnifique")).toBe(
+      "Le pe-tit prince est une œuvre ma-gni-fique"
+    );
   });
 });
 
@@ -33,17 +32,18 @@ describe("German hyphenation", () => {
   });
 
   test("Simple word: Handschuh", () => {
-    const result = hyphenate("Handschuh");
-    expect(result).toContain("-");
+    expect(hyphenate("Handschuh")).toBe("Hand-schuh");
   });
 
   test("Compound word: Geschwindigkeitsbeschränkung", () => {
-    const result = hyphenate("Geschwindigkeitsbeschränkung");
-    expect(result).toContain("-");
+    expect(hyphenate("Geschwindigkeitsbeschränkung")).toBe(
+      "Ge-schwin-dig-keits-be-schrän-kung"
+    );
   });
 
   test("Sentence: Die Schnelle Bräune überfällt das faule Schwein", () => {
-    const result = hyphenate("Die Schnelle Bräune überfällt das faule Schwein");
-    expect(result).toContain("-");
+    expect(hyphenate("Die Schnelle Bräune überfällt das faule Schwein")).toBe(
+      "Die Schnel-le Bräu-ne über-fällt das fau-le Schwein"
+    );
   });
 });

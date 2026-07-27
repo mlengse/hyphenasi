@@ -9,19 +9,17 @@ beforeAll(() => {
 
 describe("Indonesian hyphenation", () => {
   test("Simple word: Indonesia", () => {
-    const result = hyphenate("Indonesia");
-    expect(result).toContain("-");
+    expect(hyphenate("Indonesia")).toBe("In-do-ne-sia");
   });
 
   test("Long word: Pemerintahan", () => {
-    const result = hyphenate("Pemerintahan");
-    expect(result).toContain("-");
+    expect(hyphenate("Pemerintahan")).toBe("Pe-me-rin-tah-an");
   });
 
   test("Sentence: Republik Indonesia adalah negara kepulauan", () => {
-    const result = hyphenate("Republik Indonesia adalah negara kepulauan");
-    expect(result).toContain("-");
-    expect(result).not.toBe("Republik Indonesia adalah negara kepulauan");
+    expect(hyphenate("Republik Indonesia adalah negara kepulauan")).toBe(
+      "Re-pu-blik In-do-ne-sia ada-lah ne-ga-ra ke-pu-la-u-an"
+    );
   });
 
   test("HTML mode: should skip HTML tags", () => {
@@ -35,7 +33,6 @@ describe("Indonesian hyphenation", () => {
       hyphenChar: "-",
       async: false
     });
-    const result = syncHyphenator("Indonesia");
-    expect(result).toContain("-");
+    expect(syncHyphenator("Indonesia")).toBe("In-do-ne-sia");
   });
 });

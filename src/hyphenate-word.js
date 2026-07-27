@@ -33,7 +33,7 @@ function createStringSlicer(str) {
 
 export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
   var levels = new Array(text.length + 1),
-    loweredText = ("." + loweredText + ".").split(""),
+    loweredChars = ("." + loweredText + ".").split(""),
     wordSlice,
     letter,
     triePtr,
@@ -48,7 +48,7 @@ export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
 
   for (var i = levels.length; i--; ) levels[i] = 0;
 
-  slicer = createStringSlicer(loweredText);
+  slicer = createStringSlicer(loweredChars);
   nextSlice = slicer[0];
   isFirstCharacter = slicer[1];
 
@@ -103,7 +103,7 @@ export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
 
   DEV: {
     console.log(
-      loweredText.join(""),
+      loweredChars.join(""),
       levels.join(""),
       levelsToMarkers(levels).join()
     );

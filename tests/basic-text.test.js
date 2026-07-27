@@ -41,7 +41,40 @@ describe("Edge cases", () => {
   });
 
   test("Multiple spaces between words", () => {
-    const result = hyphenate("hello  beautiful");
-    expect(result).toBe("hel-lo  beau-ti-ful");
+    expect(hyphenate("hello  beautiful")).toBe("hel-lo  beau-ti-ful");
+  });
+});
+
+describe("Punctuation edge cases", () => {
+  test("Text ending with period", () => {
+    expect(hyphenate("hello.")).toBe("hel-lo.");
+  });
+
+  test("Text ending with comma", () => {
+    expect(hyphenate("word,")).toBe("word,");
+  });
+
+  test("Text ending with exclamation", () => {
+    expect(hyphenate("beautiful!")).toBe("beau-ti-ful!");
+  });
+
+  test("Consecutive punctuation", () => {
+    expect(hyphenate("hello...world")).toBe("hel-lo...world");
+  });
+
+  test("Mixed punctuation", () => {
+    expect(hyphenate("hello, world!")).toBe("hel-lo, world!");
+  });
+});
+
+describe("HTML edge cases", () => {
+  test("Nested HTML tags", () => {
+    expect(hyphenate('<div><span>beautiful</span></div>')).toBe(
+      '<div><span>beau-ti-ful</span></div>'
+    );
+  });
+
+  test("Already hyphenated word is preserved", () => {
+    expect(hyphenate("hel-lo")).toBe("hel-lo");
   });
 });

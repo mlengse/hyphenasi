@@ -164,7 +164,7 @@
   }
   function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
     var levels = new Array(text.length + 1),
-      loweredText = ("." + loweredText + ".").split(""),
+      loweredChars = ("." + loweredText + ".").split(""),
       wordSlice,
       letter,
       triePtr,
@@ -177,7 +177,7 @@
       isFirstCharacter,
       nextLetter;
     for (var i = levels.length; i--; ) levels[i] = 0;
-    slicer = createStringSlicer(loweredText);
+    slicer = createStringSlicer(loweredChars);
     nextSlice = slicer[0];
     isFirstCharacter = slicer[1];
     while ((wordSlice = nextSlice())) {
@@ -236,9 +236,9 @@
     isAsync
   ) {
     function done() {
-      resolveNewText(newText);
+      resolveNewText(textParts.join(""));
     }
-    var newText = "",
+    var textParts = [],
       fragments,
       readText = createTextReader(
         createHyphenationVerifier(
@@ -250,9 +250,9 @@
       ),
       resolveNewText = function () {};
     function nextTick() {
-      var loopStart = /* @__PURE__ */ new Date();
+      var loopStart = Date.now();
       while (
-        (!isAsync || /* @__PURE__ */ new Date() - loopStart < 10) &&
+        (!isAsync || Date.now() - loopStart < 10) &&
         (fragments = readText(text))
       ) {
         if (fragments[1]) {
@@ -274,7 +274,7 @@
           }
           fragments[1] = cache[cacheKey];
         }
-        newText += fragments[0] + fragments[1];
+        textParts.push(fragments[0], fragments[1]);
       }
       if (!fragments) {
         done();
@@ -289,7 +289,7 @@
       });
     } else {
       nextTick();
-      return newText;
+      return textParts.join("");
     }
   }
 
@@ -424,12 +424,14 @@
         );
         caches[cacheKey2] = extend(caches[cacheKey2], exceptions[cacheKey2]);
       }
+      var currentMarkersDict = markersDict;
       if (localUserExceptions && localUserExceptions.length) {
         exceptions[cacheKey2] = extend(
           exceptions[cacheKey2],
           exceptionsFromDefinition(localUserExceptions, localHyphenChar)
         );
-        markersDict = extend(
+        currentMarkersDict = extend(
+          {},
           markersDict,
           markersFromExceptionsDefinition(localUserExceptions)
         );
@@ -440,7 +442,7 @@
         levelsTable,
         patterns,
         caches[cacheKey2],
-        markersDict,
+        currentMarkersDict,
         localHyphenChar,
         skipHTML,
         localMinWordLength,

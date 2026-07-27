@@ -19,7 +19,7 @@ export function start(
   isAsync
 ) {
   function done() {
-    DEV: allTime = new Date() - allTime;
+    DEV: allTime = Date.now() - allTime;
     resolveNewText(textParts.join(""));
 
     DEV: {
@@ -51,15 +51,15 @@ export function start(
   DEV: {
     var processedN = 0,
       hyphenatedN = 0,
-      allTime = new Date(),
+      allTime = Date.now(),
       workTime = 0;
   }
 
   function nextTick() {
-    var loopStart = new Date();
+    var loopStart = Date.now();
 
     while (
-      (!isAsync || new Date() - loopStart < 10) &&
+      (!isAsync || Date.now() - loopStart < 10) &&
       (fragments = readText(text))
     ) {
       if (fragments[1]) {
@@ -94,7 +94,7 @@ export function start(
       DEV: processedN++;
     }
 
-    DEV: workTime += new Date() - loopStart;
+    DEV: workTime += Date.now() - loopStart;
 
     if (!fragments) {
       done();

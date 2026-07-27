@@ -13,7 +13,8 @@
     "test": "jest",
     "watch:package": "nodemon -w ./export-contract.js -w ./hyphen.js ./scripts/build-package.cjs",
     "watch:src": "nodemon -w ./src ./scripts/build-src.cjs",
-    "watch": "npm run watch:src & npm run watch:package"
+    "watch": "npm run watch:src & npm run watch:package",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -32,10 +33,5 @@
     "jest": "^30.3.0",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run build && npm run lint && npm run test"
-    }
   }
 }
