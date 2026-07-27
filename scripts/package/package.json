@@ -4,6 +4,7 @@
   "description": "Text hyphenation in Javascript.",
   "main": "./hyphen.js",
   "module": "./hyphen.js",
+  "types": "./hyphen.d.ts",
   "exports": {
     ".": "./hyphen.js",
     "./patterns/*": "./patterns/*.js",

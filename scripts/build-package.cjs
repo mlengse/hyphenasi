@@ -16,6 +16,7 @@ const aliases = [
 const projectFiles = [
   "CHANGELOG",
   "export-contract.js",
+  "hyphen.d.ts",
   "hyphen.js",
   "LICENSE",
   "README.md"
