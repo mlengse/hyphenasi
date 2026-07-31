@@ -706,6 +706,19 @@ const hyphenateSync = createHyphenator(patterns);
 
 Predefined `hyphenate` functions are set in every language pack.
 
+## Updating patterns
+
+Patterns are ported from the [tex-hyphen](https://github.com/hyphenation/tex-hyphen) upstream. The workflow lives in `scripts/`:
+
+- `npm run sync:patterns` — copies `hyph-*.tex` files from `../pattern/tex-hyphen` into `tex/` and rewrites their headers (see `scripts/sync-tex.cjs`).
+- `npm run check:drift` — fails if any `tex/` file has drifted from upstream (see `scripts/check-drift.cjs`).
+- `npm run build:patterns` — compiles `tex/*.tex` into `patterns/*.js` (see `scripts/build-patterns.cjs`).
+
+### Notes
+
+- Six upstream files are not compilable by the `tex2js` translator and are excluded via `scripts/tex-excludes.cjs`: `hyph-ar.tex`, `hyph-eo.tex`, `hyph-fa.tex`, `hyph-he.tex`, `hyph-vi.tex` (their `eval()` output is not valid JS), and `hyph-grc-x-ibycus.tex` (has no marker to be detected).
+- `patterns/id.js` is a hand-curated fixture, not a build output. `tex/hyph-id.tex` contains the full KBBI-derived patterns; rebuilding `id.js` from it diverges from the fixture expectations in `tests/indonesian.test.js`. Rebuilding requires high-quality patterns (Fase 2).
+
 ## jsDelivr CDN for older websites
 
 It is possible to use `hyphen` on older websites with [jsDelivr](https://www.jsdelivr.com/) network. Check the [package page](https://www.jsdelivr.com/package/npm/hyphen) on their website.

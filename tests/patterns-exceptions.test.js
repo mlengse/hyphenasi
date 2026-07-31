@@ -35,4 +35,16 @@ describe("Patterns exceptions", () => {
 
     expect(hyphenate(text)).toBe(predictable);
   });
+
+  test("Multi-syllable exception: associate", () => {
+    expect(hyphenate("associate")).toBe("as-so-ciate");
+  });
+
+  test("Multi-syllable exception: declination", () => {
+    expect(hyphenate("declination")).toBe("dec-li-na-tion");
+  });
+
+  test("Multi-syllable exception: obligatory", () => {
+    expect(hyphenate("obligatory")).toBe("oblig-a-tory");
+  });
 });

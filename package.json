@@ -6,6 +6,8 @@
     "build:docs": "cd ./storybook && npm run build && cd .. && cp ./01.png ./docs",
     "build:package": "rm -rf ./package && node ./scripts/build-package.cjs",
     "build:patterns": "node ./scripts/build-patterns.cjs",
+    "check:drift": "node ./scripts/check-drift.cjs",
+    "sync:patterns": "node ./scripts/sync-tex.cjs && node ./scripts/build-patterns.cjs",
     "build:src": "node ./scripts/build-src.cjs",
     "contributors:generate": "all-contributors generate",
     "lint": "eslint hyphen.js",

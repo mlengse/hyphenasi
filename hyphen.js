@@ -133,7 +133,7 @@
       var i = 0,
         markers = [];
       while ((i = definition.indexOf("-", i + 1)) > -1) {
-        markers.push(i);
+        markers.push(i - markers.length);
       }
       markersDict[definition.toLocaleLowerCase().replace(/\-/g, "")] = markers;
       return markersDict;
@@ -176,7 +176,7 @@
       nextSlice,
       isFirstCharacter,
       nextLetter;
-    for (var i = levels.length; i--; ) levels[i] = 0;
+    for (var i = levels.length; i--;) levels[i] = 0;
     slicer = createStringSlicer(loweredChars);
     nextSlice = slicer[0];
     isFirstCharacter = slicer[1];

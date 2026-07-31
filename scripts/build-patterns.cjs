@@ -1,6 +1,8 @@
 const DIR_PATTERNS = "patterns";
 const DIR_TEX = "tex";
 
+const TEX_FIXTURES = ["hyph-id.tex"];
+
 const makeUMD = (code, globalName) => `(function (root, exports) {
   if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
@@ -77,7 +79,7 @@ const markersFromExceptionsDefinition = exceptionsList =>
       markers = [];
 
     while ((i = definition.indexOf("-", i + 1)) > -1) {
-      markers.push(i);
+      markers.push(i - markers.length);
     }
 
     markersDict[definition.toLocaleLowerCase().replace(/\-/g, "")] = markers;
@@ -86,12 +88,17 @@ const markersFromExceptionsDefinition = exceptionsList =>
   }, {});
 /******************************************************************************/
 console.log(`Porting patterns`);
+console.log(`Skipping fixtures: ${TEX_FIXTURES.join(", ")}`);
 
 const { tex2js } = require("./tex2js.cjs");
 const { createPatternTrie } = require("./createPatternTrie.cjs");
 
 buildFiles(
-  readdirSync(pathTo(DIR_TEX)).filter(a => ~a.indexOf(".tex")),
+  readdirSync(pathTo(DIR_TEX)).filter(
+    a =>
+      ~a.indexOf(".tex") &&
+      !TEX_FIXTURES.some(fixture => a.startsWith(fixture))
+  ),
   filename => pathTo(DIR_PATTERNS, tagFromFilename(filename) + ".js"),
   filename => {
     let [patterns, hyphenation, input] = evalTex(

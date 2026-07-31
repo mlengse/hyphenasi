@@ -1,0 +1,79 @@
+const { readFileSync, existsSync, readdirSync } = require("fs");
+const { join, resolve } = require("path");
+const { TEX_EXCLUDES } = require("./tex-excludes.cjs");
+
+const DIR_TEX = "tex";
+const BODY_MARKER = "\\patterns";
+
+const pathTo = (pathRoot => (...args) => join(pathRoot, ...args))(
+  resolve(__dirname, "..")
+);
+
+const normalizeEol = content => content.replace(/\r\n/g, "\n");
+
+const getBody = content => {
+  const lines = normalizeEol(content).split("\n");
+  const index = lines.findIndex(line => line.startsWith(BODY_MARKER));
+
+  return index === -1 ? lines.join("\n") : lines.slice(index).join("\n");
+};
+
+const sourceArg = process.argv[2];
+const sourceDir = resolve(__dirname, "..", sourceArg || process.env.HYPHEN_TEX_SOURCE || "../../pattern/tex-hyphen/hyph-utf8/tex/generic/hyph-utf8/patterns/tex");
+
+const allowRaw = process.env.HYPHEN_DRIFT_ALLOW || "";
+const allowed = new Set(
+  allowRaw.split(",").map(name => name.trim()).filter(Boolean)
+);
+
+if (!existsSync(sourceDir)) {
+  console.error(`Source directory not found: ${sourceDir}`);
+  process.exit(2);
+}
+
+const sourceFiles = new Set(
+  readdirSync(sourceDir).filter(filename => filename.endsWith(".tex"))
+);
+const destFiles = readdirSync(pathTo(DIR_TEX)).filter(
+  filename => filename.endsWith(".tex") && !TEX_EXCLUDES.includes(filename)
+);
+
+let issues = [];
+
+const missing = destFiles.filter(filename => !sourceFiles.has(filename));
+if (missing.length) {
+  issues.push(`Not in upstream: ${missing.join(", ")}`);
+}
+
+const orphan = [...sourceFiles].filter(
+  filename => !destFiles.includes(filename) && !TEX_EXCLUDES.includes(filename)
+);
+if (orphan.length) {
+  issues.push(`Missing in tex/: ${orphan.join(", ")}`);
+}
+
+const drift = [];
+for (const filename of destFiles) {
+  if (!sourceFiles.has(filename) || allowed.has(filename)) {
+    continue;
+  }
+  const sourceBody = getBody(readFileSync(join(sourceDir, filename), "utf8"));
+  const destBody = getBody(readFileSync(pathTo(DIR_TEX, filename), "utf8"));
+
+  if (sourceBody !== destBody) {
+    drift.push(filename);
+  }
+}
+
+if (drift.length) {
+  issues.push(`Body drift: ${drift.join(", ")}`);
+}
+
+if (issues.length) {
+  console.error(`Pattern drift detected:`);
+  issues.forEach(issue => console.error(`  - ${issue}`));
+  console.error(`Fix with: npm run sync:patterns`);
+  process.exit(1);
+}
+
+console.log(`No pattern drift. ${destFiles.length} tex files in sync.`);
