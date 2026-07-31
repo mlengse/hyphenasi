@@ -1,5 +1,6 @@
 const createHyphenator = require("../hyphen.js");
 const patterns = require("../patterns/id.js");
+const kbbiSample = require("./fixtures/indonesian-kbbi.json");
 
 let hyphenate;
 
@@ -60,5 +61,11 @@ describe("Indonesian hyphenation", () => {
     expect(hyphenate("Kesatuan Republik Indonesia")).toBe(
       "Ke-sa-tu-an Re-pub-lik In-do-ne-si-a"
     );
+  });
+
+  test("Sample of 500 words from KBBI ground truth", () => {
+    for (const [word, expected] of kbbiSample) {
+      expect(hyphenate(word)).toBe(expected);
+    }
   });
 });

@@ -16,8 +16,11 @@ export function start(
   hyphenChar,
   skipHTML,
   minWordLength,
-  isAsync
+  isAsync,
+  cacheLimit
 ) {
+  var CACHE_COUNT_KEY = "\u0000cacheCount";
+
   function done() {
     DEV: allTime = Date.now() - allTime;
     resolveNewText(textParts.join(""));
@@ -81,6 +84,22 @@ export function start(
             hyphenChar,
             markersDict[loweredWord]
           );
+
+          if (cacheLimit > 0) {
+            cache[CACHE_COUNT_KEY] = (cache[CACHE_COUNT_KEY] || 0) + 1;
+
+            if (cache[CACHE_COUNT_KEY] > cacheLimit) {
+              var current = cache[cacheKey];
+              var keys = Object.keys(cache);
+
+              for (var i = 0; i < keys.length; i++) {
+                if (keys[i] !== CACHE_COUNT_KEY) delete cache[keys[i]];
+              }
+
+              cache[CACHE_COUNT_KEY] = 1;
+              cache[cacheKey] = current;
+            }
+          }
         }
 
         DEV: if (fragments[1] !== cache[cacheKey]) {

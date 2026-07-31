@@ -233,8 +233,10 @@
     hyphenChar,
     skipHTML,
     minWordLength,
-    isAsync
+    isAsync,
+    cacheLimit
   ) {
+    var CACHE_COUNT_KEY = "\0cacheCount";
     function done() {
       resolveNewText(textParts.join(""));
     }
@@ -271,6 +273,18 @@
               hyphenChar,
               markersDict[loweredWord]
             );
+            if (cacheLimit > 0) {
+              cache[CACHE_COUNT_KEY] = (cache[CACHE_COUNT_KEY] || 0) + 1;
+              if (cache[CACHE_COUNT_KEY] > cacheLimit) {
+                var current = cache[cacheKey];
+                var keys = Object.keys(cache);
+                for (var i = 0; i < keys.length; i++) {
+                  if (keys[i] !== CACHE_COUNT_KEY) delete cache[keys[i]];
+                }
+                cache[CACHE_COUNT_KEY] = 1;
+                cache[cacheKey] = current;
+              }
+            }
           }
           fragments[1] = cache[cacheKey];
         }
@@ -294,11 +308,13 @@
   }
 
   var SETTING_DEFAULT_ASYNC = false;
+  var SETTING_DEFAULT_CACHE_LIMIT = 1e4;
   var SETTING_DEFAULT_EXCEPTIONS = [];
   var SETTING_DEFAULT_HTML = true;
   var SETTING_DEFAULT_HYPH_CHAR = "\xAD";
   var SETTING_DEFAULT_MIN_WORD_LENGTH = 5;
   var SETTING_NAME_ASYNC = "async";
+  var SETTING_NAME_CACHE_LIMIT = "cacheLimit";
   var SETTING_NAME_EXCEPTIONS = "exceptions";
   var SETTING_NAME_HTML = "html";
   var SETTING_NAME_HYPH_CHAR = "hyphenChar";
@@ -367,6 +383,12 @@
           options,
           SETTING_NAME_MIN_WORD_LENGTH,
           SETTING_DEFAULT_MIN_WORD_LENGTH
+        ) >> 0,
+      cacheLimit =
+        keyOrDefault(
+          options,
+          SETTING_NAME_CACHE_LIMIT,
+          SETTING_DEFAULT_CACHE_LIMIT
         ) >> 0,
       skipHTML = keyOrDefault(options, SETTING_NAME_HTML, SETTING_DEFAULT_HTML),
       userExceptions = keyOrDefault(
@@ -446,7 +468,8 @@
         localHyphenChar,
         skipHTML,
         localMinWordLength,
-        asyncMode
+        asyncMode,
+        cacheLimit
       );
     };
   }
