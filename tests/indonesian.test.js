@@ -9,7 +9,7 @@ beforeAll(() => {
 
 describe("Indonesian hyphenation", () => {
   test("Simple word: Indonesia", () => {
-    expect(hyphenate("Indonesia")).toBe("In-do-ne-sia");
+    expect(hyphenate("Indonesia")).toBe("In-do-ne-si-a");
   });
 
   test("Long word: Pemerintahan", () => {
@@ -18,13 +18,13 @@ describe("Indonesian hyphenation", () => {
 
   test("Sentence: Republik Indonesia adalah negara kepulauan", () => {
     expect(hyphenate("Republik Indonesia adalah negara kepulauan")).toBe(
-      "Re-pu-blik In-do-ne-sia ada-lah ne-ga-ra ke-pu-la-u-an"
+      "Re-pub-lik In-do-ne-si-a a-da-lah ne-ga-ra ke-pu-lau-an"
     );
   });
 
   test("HTML mode: should skip HTML tags", () => {
     expect(hyphenate('<p class="test">Indonesia</p>')).toBe(
-      '<p class="test">In-do-ne-sia</p>'
+      '<p class="test">In-do-ne-si-a</p>'
     );
   });
 
@@ -33,6 +33,32 @@ describe("Indonesian hyphenation", () => {
       hyphenChar: "-",
       async: false
     });
-    expect(syncHyphenator("Indonesia")).toBe("In-do-ne-sia");
+    expect(syncHyphenator("Indonesia")).toBe("In-do-ne-si-a");
+  });
+
+  test("Compound: kepulauan", () => {
+    expect(hyphenate("kepulauan")).toBe("ke-pu-lau-an");
+  });
+
+  test("Compound: demokratisasi", () => {
+    expect(hyphenate("demokratisasi")).toBe("de-mo-kra-ti-sa-si");
+  });
+
+  test("Compound: perserikatan", () => {
+    expect(hyphenate("perserikatan")).toBe("per-se-ri-kat-an");
+  });
+
+  test("Compound: kebangsaan", () => {
+    expect(hyphenate("kebangsaan")).toBe("ke-bang-sa-an");
+  });
+
+  test("Affixed verb: membantu", () => {
+    expect(hyphenate("membantu")).toBe("mem-ban-tu");
+  });
+
+  test("Sentence: Kesatuan Republik Indonesia", () => {
+    expect(hyphenate("Kesatuan Republik Indonesia")).toBe(
+      "Ke-sa-tu-an Re-pub-lik In-do-ne-si-a"
+    );
   });
 });

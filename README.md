@@ -717,7 +717,7 @@ Patterns are ported from the [tex-hyphen](https://github.com/hyphenation/tex-hyp
 ### Notes
 
 - Six upstream files are not compilable by the `tex2js` translator and are excluded via `scripts/tex-excludes.cjs`: `hyph-ar.tex`, `hyph-eo.tex`, `hyph-fa.tex`, `hyph-he.tex`, `hyph-vi.tex` (their `eval()` output is not valid JS), and `hyph-grc-x-ibycus.tex` (has no marker to be detected).
-- `patterns/id.js` is a hand-curated fixture, not a build output. `tex/hyph-id.tex` contains the full KBBI-derived patterns; rebuilding `id.js` from it diverges from the fixture expectations in `tests/indonesian.test.js`. Rebuilding requires high-quality patterns (Fase 2).
+- `patterns/id.js` is a regular build output of `tex/hyph-id.tex` (KBBI 2025, ~72k patterns). Its expectations in `tests/indonesian.test.js` follow the KBBI ground truth.
 
 ## jsDelivr CDN for older websites
 
