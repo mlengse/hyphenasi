@@ -3,9 +3,11 @@ const patterns = require("../patterns/id.js");
 const kbbiSample = require("./fixtures/indonesian-kbbi.json");
 
 let hyphenate;
+let hyphenateShort;
 
 beforeAll(() => {
   hyphenate = createHyphenator(patterns, { hyphenChar: "-" });
+  hyphenateShort = createHyphenator(patterns, { hyphenChar: "-", minWordLength: 2 });
 });
 
 describe("Indonesian hyphenation", () => {
@@ -63,9 +65,33 @@ describe("Indonesian hyphenation", () => {
     );
   });
 
-  test("Sample of 500 words from KBBI ground truth", () => {
+  test("Short word: aba", () => {
+    expect(hyphenateShort("aba")).toBe("a-ba");
+  });
+
+  test("Short word: abai", () => {
+    expect(hyphenateShort("abai")).toBe("a-bai");
+  });
+
+  test("Short word: boi", () => {
+    expect(hyphenateShort("boi")).toBe("bo-i");
+  });
+
+  test("Short word: kia (override)", () => {
+    expect(hyphenateShort("kia")).toBe("ki-a");
+  });
+
+  test("Short word: kpop (override)", () => {
+    expect(hyphenateShort("kpop")).toBe("k-pop");
+  });
+
+  test("Short word: enak (override)", () => {
+    expect(hyphenateShort("enak")).toBe("e-nak");
+  });
+
+  test("Sample of 800 words from KBBI ground truth (incl. 300 short)", () => {
     for (const [word, expected] of kbbiSample) {
-      expect(hyphenate(word)).toBe(expected);
+      expect(hyphenateShort(word)).toBe(expected);
     }
   });
 });
