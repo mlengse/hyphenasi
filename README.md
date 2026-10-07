@@ -1,17 +1,22 @@
 ![Franklin M. Liang's hyphenation algorithm](https://ytiurin.github.io/hyphen/01.png)
 
-[![npm version](https://badge.fury.io/js/hyphen.svg)](https://badge.fury.io/js/hyphen)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![npm version](https://badge.fury.io/js/hyphenasi.svg)](https://badge.fury.io/js/hyphenasi)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-# hyphen
+# hyphenasi
 
 [Demo page](https://ytiurin.github.io/hyphen/)
+
+> **Note:** `hyphenasi` is a fork of [`hyphen`](https://www.npmjs.com/package/hyphen). The API and all
+> non-Indonesian patterns are identical to upstream. The differences are a rebuilt Indonesian pattern set
+> (KBBI 2025, ~72k patterns) and an added Kazakh (`kk`) pattern set. If you do not need those, prefer
+> upstream `hyphen`.
 
 This is a text hyphenation library, based on Franklin M. Liang's [hyphenation algorithm](https://tug.org/docs/liang/ "Frank Liang wrote his Stanford Ph.D. thesis on a hyphenation algorithm that is standard in TeX, and has been adapted to numerous languages."). In core of the algorithm lies a set of hyphenation patterns. They are extracted from hand-hyphenated dictionaries. Patterns for this library were taken from [ctan.org](https://ctan.org/ "The Comprehensive TEX Archive Network (CTAN) is the central place for all kinds of material around TEX.") and ported to Javascript.
 
 ```javascript
-import { hyphenate } from "hyphen/en";
+import { hyphenate } from "hyphenasi/en";
 
 (async () => {
   const text = "A certain king had a beautiful garden";
@@ -26,7 +31,7 @@ import { hyphenate } from "hyphen/en";
 Processor will automaticly skip HTML tags hyphenation.
 
 ```javascript
-import { hyphenate } from "hyphen/en";
+import { hyphenate } from "hyphenasi/en";
 
 (async () => {
   const text = "<blockquote>A certain king had a beautiful garden</blockquote>";
@@ -38,10 +43,10 @@ import { hyphenate } from "hyphen/en";
 
 ## Select language
 
-To hypehante text in any other supported language, just change the `import` source. For example for German language, import a hyphenation function from a `"hyphen/de"` source.
+To hypehante text in any other supported language, just change the `import` source. For example for German language, import a hyphenation function from a `"hyphenasi/de"` source.
 
 ```javascript
-import { hyphenate } from "hyphen/de";
+import { hyphenate } from "hyphenasi/de";
 
 (async () => {
   const text = "Ein gewisser König hatte einen wunderschönen Garten";
@@ -56,8 +61,8 @@ import { hyphenate } from "hyphen/de";
 It is possible to use many langauges on the same page.
 
 ```javascript
-import { hyphenate as hyphenateEn } from "hyphen/en";
-import { hyphenate as hyphenateDe } from "hyphen/de";
+import { hyphenate as hyphenateEn } from "hyphenasi/en";
+import { hyphenate as hyphenateDe } from "hyphenasi/de";
 
 (async () => {
   const english = "A certain king had a beautiful garden";
@@ -77,7 +82,7 @@ import { hyphenate as hyphenateDe } from "hyphen/de";
 Use a sync version when you need to write a synchronous code.
 
 ```javascript
-import { hyphenateSync as hyphenate } from "hyphen/en";
+import { hyphenateSync as hyphenate } from "hyphenasi/en";
 
 const text = "A certain king had a beautiful garden";
 
@@ -88,7 +93,7 @@ const result = hyphenate(text);
 ## Install
 
 ```
-npm install hyphen
+npm install hyphenasi
 ```
 
 Install types definitions for Typescript usage.
@@ -116,7 +121,7 @@ Types definitions are created and maintained by [Krisztián Balla](https://githu
 ### Example of using options
 
 ```javascript
-import { hyphenate } from "hyphen/en";
+import { hyphenate } from "hyphenasi/en";
 
 (async () => {
   const text = "A certain king had a beautiful garden";
@@ -136,537 +141,537 @@ import { hyphenate } from "hyphen/en";
 - Afrikaans language
 
 ```javascript
-import { hyphenate } from "hyphen/af";
+import { hyphenate } from "hyphenasi/af";
 ```
 
 - Albanian language
 
 ```javascript
-import { hyphenate } from "hyphen/sq";
+import { hyphenate } from "hyphenasi/sq";
 ```
 
 - Armenian language
 
 ```javascript
-import { hyphenate } from "hyphen/hy";
+import { hyphenate } from "hyphenasi/hy";
 ```
 
 - Assamese language
 
 ```javascript
-import { hyphenate } from "hyphen/as";
+import { hyphenate } from "hyphenasi/as";
 ```
 
 - Basque language
 
 ```javascript
-import { hyphenate } from "hyphen/eu";
+import { hyphenate } from "hyphenasi/eu";
 ```
 
 - Belarusian language
 
 ```javascript
-import { hyphenate } from "hyphen/be";
+import { hyphenate } from "hyphenasi/be";
 ```
 
 - Bengali language
 
 ```javascript
-import { hyphenate } from "hyphen/bn";
+import { hyphenate } from "hyphenasi/bn";
 ```
 
 - Bulgarian language
 
 ```javascript
-import { hyphenate } from "hyphen/bg";
+import { hyphenate } from "hyphenasi/bg";
 ```
 
 - Catalan language
 
 ```javascript
-import { hyphenate } from "hyphen/ca";
+import { hyphenate } from "hyphenasi/ca";
 ```
 
 - Coptic language
 
 ```javascript
-import { hyphenate } from "hyphen/cop";
+import { hyphenate } from "hyphenasi/cop";
 ```
 
 - Croatian language
 
 ```javascript
-import { hyphenate } from "hyphen/hr";
+import { hyphenate } from "hyphenasi/hr";
 ```
 
 - Czech language
 
 ```javascript
-import { hyphenate } from "hyphen/cs";
+import { hyphenate } from "hyphenasi/cs";
 ```
 
 - Danish language
 
 ```javascript
-import { hyphenate } from "hyphen/da";
+import { hyphenate } from "hyphenasi/da";
 ```
 
 - Dutch language
 
 ```javascript
-import { hyphenate } from "hyphen/nl";
+import { hyphenate } from "hyphenasi/nl";
 ```
 
 - English, American spelling language
 
 ```javascript
-import { hyphenate } from "hyphen/en-us";
+import { hyphenate } from "hyphenasi/en-us";
 ```
 
 - English, British spelling language
 
 ```javascript
-import { hyphenate } from "hyphen/en-gb";
+import { hyphenate } from "hyphenasi/en-gb";
 ```
 
 - Estonian language
 
 ```javascript
-import { hyphenate } from "hyphen/et";
+import { hyphenate } from "hyphenasi/et";
 ```
 
 - Multiple languages using the Ethiopic scripts
 
 ```javascript
-import { hyphenate } from "hyphen/mul-ethi";
+import { hyphenate } from "hyphenasi/mul-ethi";
 ```
 
 - Finnish language
 
 ```javascript
-import { hyphenate } from "hyphen/fi";
+import { hyphenate } from "hyphenasi/fi";
 ```
 
 - Finnish language (school hyphenation)
 
 ```javascript
-import { hyphenate } from "hyphen/fi-x-school";
+import { hyphenate } from "hyphenasi/fi-x-school";
 ```
 
 - French language
 
 ```javascript
-import { hyphenate } from "hyphen/fr";
+import { hyphenate } from "hyphenasi/fr";
 ```
 
 - Friulan language
 
 ```javascript
-import { hyphenate } from "hyphen/fur";
+import { hyphenate } from "hyphenasi/fur";
 ```
 
 - Galician language
 
 ```javascript
-import { hyphenate } from "hyphen/gl";
+import { hyphenate } from "hyphenasi/gl";
 ```
 
 - Georgian language
 
 ```javascript
-import { hyphenate } from "hyphen/ka";
+import { hyphenate } from "hyphenasi/ka";
 ```
 
 - German, traditional spelling
 
 ```javascript
-import { hyphenate } from "hyphen/de-1901";
+import { hyphenate } from "hyphenasi/de-1901";
 ```
 
 - German, reformed spelling
 
 ```javascript
-import { hyphenate } from "hyphen/de-1996";
+import { hyphenate } from "hyphenasi/de-1996";
 ```
 
 - German, traditional Swiss spelling
 
 ```javascript
-import { hyphenate } from "hyphen/de-ch-1901";
+import { hyphenate } from "hyphenasi/de-ch-1901";
 ```
 
 - Modern Greek, monotonic spelling
 
 ```javascript
-import { hyphenate } from "hyphen/el-monoton";
+import { hyphenate } from "hyphenasi/el-monoton";
 ```
 
 - Modern Greek, polytonic spelling
 
 ```javascript
-import { hyphenate } from "hyphen/el-polyton";
+import { hyphenate } from "hyphenasi/el-polyton";
 ```
 
 - Ancient Greek language
 
 ```javascript
-import { hyphenate } from "hyphen/grc";
+import { hyphenate } from "hyphenasi/grc";
 ```
 
 - Gujarati language
 
 ```javascript
-import { hyphenate } from "hyphen/gu";
+import { hyphenate } from "hyphenasi/gu";
 ```
 
 - Hindi language
 
 ```javascript
-import { hyphenate } from "hyphen/hi";
+import { hyphenate } from "hyphenasi/hi";
 ```
 
 - Hungarian language
 
 ```javascript
-import { hyphenate } from "hyphen/hu";
+import { hyphenate } from "hyphenasi/hu";
 ```
 
 - Icelandic language
 
 ```javascript
-import { hyphenate } from "hyphen/is";
+import { hyphenate } from "hyphenasi/is";
 ```
 
 - Bahasa Indonesia, Indonesian language
 
 ```javascript
-import { hyphenate } from "hyphen/id";
+import { hyphenate } from "hyphenasi/id";
 ```
 
 - Interlingua language
 
 ```javascript
-import { hyphenate } from "hyphen/ia";
+import { hyphenate } from "hyphenasi/ia";
 ```
 
 - Irish language
 
 ```javascript
-import { hyphenate } from "hyphen/ga";
+import { hyphenate } from "hyphenasi/ga";
 ```
 
 - Italian language
 
 ```javascript
-import { hyphenate } from "hyphen/it";
+import { hyphenate } from "hyphenasi/it";
 ```
 
 - Kannada language
 
 ```javascript
-import { hyphenate } from "hyphen/kn";
+import { hyphenate } from "hyphenasi/kn";
 ```
 
 - Kurmanji, Northern Kurdish language
 
 ```javascript
-import { hyphenate } from "hyphen/kmr";
+import { hyphenate } from "hyphenasi/kmr";
 ```
 
 - Latin language
 
 ```javascript
-import { hyphenate } from "hyphen/la";
+import { hyphenate } from "hyphenasi/la";
 ```
 
 - Classical Latin language
 
 ```javascript
-import { hyphenate } from "hyphen/la-x-classic";
+import { hyphenate } from "hyphenasi/la-x-classic";
 ```
 
 - Liturgical Latin language
 
 ```javascript
-import { hyphenate } from "hyphen/la-x-liturgic";
+import { hyphenate } from "hyphenasi/la-x-liturgic";
 ```
 
 - Latvian language
 
 ```javascript
-import { hyphenate } from "hyphen/lv";
+import { hyphenate } from "hyphenasi/lv";
 ```
 
 - Lithuanian language
 
 ```javascript
-import { hyphenate } from "hyphen/lt";
+import { hyphenate } from "hyphenasi/lt";
 ```
 
 - Macedonian language
 
 ```javascript
-import { hyphenate } from "hyphen/mk";
+import { hyphenate } from "hyphenasi/mk";
 ```
 
 - Marathi language
 
 ```javascript
-import { hyphenate } from "hyphen/mr";
+import { hyphenate } from "hyphenasi/mr";
 ```
 
 - Malayalam language
 
 ```javascript
-import { hyphenate } from "hyphen/ml";
+import { hyphenate } from "hyphenasi/ml";
 ```
 
 - Mandarin Chinese, pinyin transliteration
 
 ```javascript
-import { hyphenate } from "hyphen/zh-latn-pinyin";
+import { hyphenate } from "hyphenasi/zh-latn-pinyin";
 ```
 
 - Mongolian, Cyrillic script
 
 ```javascript
-import { hyphenate } from "hyphen/mn-cyrl";
+import { hyphenate } from "hyphenasi/mn-cyrl";
 ```
 
 - Mongolian, Cyrillic script, alternative patterns
 
 ```javascript
-import { hyphenate } from "hyphen/mn-cyrl-x-lmc";
+import { hyphenate } from "hyphenasi/mn-cyrl-x-lmc";
 ```
 
 - Norwegian, norsk language
 
 ```javascript
-import { hyphenate } from "hyphen/no";
+import { hyphenate } from "hyphenasi/no";
 ```
 
 - Norwegian Bokmål, bokmål, norsk bokmål language
 
 ```javascript
-import { hyphenate } from "hyphen/nb";
+import { hyphenate } from "hyphenasi/nb";
 ```
 
 - Norwegian Nynorsk, nynorsk language
 
 ```javascript
-import { hyphenate } from "hyphen/nn";
+import { hyphenate } from "hyphenasi/nn";
 ```
 
 - Occitan language
 
 ```javascript
-import { hyphenate } from "hyphen/oc";
+import { hyphenate } from "hyphenasi/oc";
 ```
 
 - Odia, Oriya language
 
 ```javascript
-import { hyphenate } from "hyphen/or";
+import { hyphenate } from "hyphenasi/or";
 ```
 
 - Pāli language
 
 ```javascript
-import { hyphenate } from "hyphen/pi";
+import { hyphenate } from "hyphenasi/pi";
 ```
 
 - Panjabi, Punjabi language
 
 ```javascript
-import { hyphenate } from "hyphen/pa";
+import { hyphenate } from "hyphenasi/pa";
 ```
 
 - Piedmontese language
 
 ```javascript
-import { hyphenate } from "hyphen/pms";
+import { hyphenate } from "hyphenasi/pms";
 ```
 
 - Polish language
 
 ```javascript
-import { hyphenate } from "hyphen/pl";
+import { hyphenate } from "hyphenasi/pl";
 ```
 
 - Portuguese language
 
 ```javascript
-import { hyphenate } from "hyphen/pt";
+import { hyphenate } from "hyphenasi/pt";
 ```
 
 - Romansh language
 
 ```javascript
-import { hyphenate } from "hyphen/rm";
+import { hyphenate } from "hyphenasi/rm";
 ```
 
 - Romanian language
 
 ```javascript
-import { hyphenate } from "hyphen/ro";
+import { hyphenate } from "hyphenasi/ro";
 ```
 
 - Russian language
 
 ```javascript
-import { hyphenate } from "hyphen/ru";
+import { hyphenate } from "hyphenasi/ru";
 ```
 
 - Sanskrit language
 
 ```javascript
-import { hyphenate } from "hyphen/sa";
+import { hyphenate } from "hyphenasi/sa";
 ```
 
 - Serbian, Cyrillic script
 
 ```javascript
-import { hyphenate } from "hyphen/sr-cyrl";
+import { hyphenate } from "hyphenasi/sr-cyrl";
 ```
 
 - Serbocroatian, Cyrillic script
 
 ```javascript
-import { hyphenate } from "hyphen/sh-cyrl";
+import { hyphenate } from "hyphenasi/sh-cyrl";
 ```
 
 - Serbocroatian, Latin script
 
 ```javascript
-import { hyphenate } from "hyphen/sh-latn";
+import { hyphenate } from "hyphenasi/sh-latn";
 ```
 
 - Church Slavonic language
 
 ```javascript
-import { hyphenate } from "hyphen/cu";
+import { hyphenate } from "hyphenasi/cu";
 ```
 
 - Slovak language
 
 ```javascript
-import { hyphenate } from "hyphen/sk";
+import { hyphenate } from "hyphenasi/sk";
 ```
 
 - Slovenian language
 
 ```javascript
-import { hyphenate } from "hyphen/sl";
+import { hyphenate } from "hyphenasi/sl";
 ```
 
 - Upper Sorbian language
 
 ```javascript
-import { hyphenate } from "hyphen/hsb";
+import { hyphenate } from "hyphenasi/hsb";
 ```
 
 - Spanish language
 
 ```javascript
-import { hyphenate } from "hyphen/es";
+import { hyphenate } from "hyphenasi/es";
 ```
 
 - Swedish language
 
 ```javascript
-import { hyphenate } from "hyphen/sv";
+import { hyphenate } from "hyphenasi/sv";
 ```
 
 - Tamil language
 
 ```javascript
-import { hyphenate } from "hyphen/ta";
+import { hyphenate } from "hyphenasi/ta";
 ```
 
 - Telugu language
 
 ```javascript
-import { hyphenate } from "hyphen/te";
+import { hyphenate } from "hyphenasi/te";
 ```
 
 - Thai language
 
 ```javascript
-import { hyphenate } from "hyphen/th";
+import { hyphenate } from "hyphenasi/th";
 ```
 
 - Turkish language
 
 ```javascript
-import { hyphenate } from "hyphen/tr";
+import { hyphenate } from "hyphenasi/tr";
 ```
 
 - Turkmen language
 
 ```javascript
-import { hyphenate } from "hyphen/tk";
+import { hyphenate } from "hyphenasi/tk";
 ```
 
 - Ukrainian language
 
 ```javascript
-import { hyphenate } from "hyphen/uk";
+import { hyphenate } from "hyphenasi/uk";
 ```
 
 - Welsh language
 
 ```javascript
-import { hyphenate } from "hyphen/cy";
+import { hyphenate } from "hyphenasi/cy";
 ```
 
 ### Aliases for specific languages
 
-- Alias for `hyphen/de-1996`
+- Alias for `hyphenasi/de-1996`
 
 ```javascript
-import { hyphenate } from "hyphen/de";
+import { hyphenate } from "hyphenasi/de";
 ```
 
-- Alias for `hyphen/el-monoton`
+- Alias for `hyphenasi/el-monoton`
 
 ```javascript
-import { hyphenate } from "hyphen/el";
+import { hyphenate } from "hyphenasi/el";
 ```
 
-- Alias for `hyphen/en-us`
+- Alias for `hyphenasi/en-us`
 
 ```javascript
-import { hyphenate } from "hyphen/en";
+import { hyphenate } from "hyphenasi/en";
 ```
 
-- Alias for `hyphen/mul-ethi`
+- Alias for `hyphenasi/mul-ethi`
 
 ```javascript
-import { hyphenate } from "hyphen/ethi";
+import { hyphenate } from "hyphenasi/ethi";
 ```
 
-- Alias for `hyphen/mn-cyrl`
+- Alias for `hyphenasi/mn-cyrl`
 
 ```javascript
-import { hyphenate } from "hyphen/mn";
+import { hyphenate } from "hyphenasi/mn";
 ```
 
-- Alias for `hyphen/sh-cyrl`
+- Alias for `hyphenasi/sh-cyrl`
 
 ```javascript
-import { hyphenate } from "hyphen/sh";
+import { hyphenate } from "hyphenasi/sh";
 ```
 
-- Alias for `hyphen/sr-cyrl`
+- Alias for `hyphenasi/sr-cyrl`
 
 ```javascript
-import { hyphenate } from "hyphen/sr";
+import { hyphenate } from "hyphenasi/sr";
 ```
 
-- Alias for `hyphen/zh-latn-pinyin`
+- Alias for `hyphenasi/zh-latn-pinyin`
 
 ```javascript
-import { hyphenate } from "hyphen/zh";
+import { hyphenate } from "hyphenasi/zh";
 ```
 
 </details>
@@ -678,8 +683,8 @@ Factory function can be used to create `hyphenate` function with changed default
 ### Create hyphenation function with predefined exception list
 
 ```javascript
-import createHyphenator from "hyphen";
-import patterns from "hyphen/patterns/en-us";
+import createHyphenator from "hyphenasi";
+import patterns from "hyphenasi/patterns/en-us";
 
 const hyphenate = createHyphenator(patterns, {
   // result in Promise
@@ -694,8 +699,8 @@ const hyphenate = createHyphenator(patterns, {
 The following are predefined `hyphenate` functions.
 
 ```javascript
-import createHyphenator from "hyphen";
-import patterns from "hyphen/patterns/en-us";
+import createHyphenator from "hyphenasi";
+import patterns from "hyphenasi/patterns/en-us";
 
 const hyphenate = createHyphenator(patterns, {
   async: true
@@ -721,11 +726,11 @@ Patterns are ported from the [tex-hyphen](https://github.com/hyphenation/tex-hyp
 
 ## jsDelivr CDN for older websites
 
-It is possible to use `hyphen` on older websites with [jsDelivr](https://www.jsdelivr.com/) network. Check the [package page](https://www.jsdelivr.com/package/npm/hyphen) on their website.
+It is possible to use `hyphenasi` on older websites with [jsDelivr](https://www.jsdelivr.com/) network. Check the [package page](https://www.jsdelivr.com/package/npm/hyphenasi) on their website.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/hyphen@1.14.1/patterns/en-us.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/hyphen@1.14.1/hyphen.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hyphenasi@1.15.0/patterns/en-us.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hyphenasi@1.15.0/hyphen.min.js"></script>
 ```
 
 After the script is added on your page, use the `createHyphenator` to create a `hyphenate` function.

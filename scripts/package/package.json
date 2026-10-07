@@ -1,7 +1,7 @@
 {
-  "name": "hyphen",
-  "version": "1.14.1",
-  "description": "Text hyphenation in Javascript.",
+  "name": "hyphenasi",
+  "version": "1.15.0",
+  "description": "Text hyphenation in Javascript. Fork of hyphen with improved Indonesian (KBBI) patterns.",
   "main": "./hyphen.js",
   "module": "./hyphen.js",
   "types": "./hyphen.d.ts",
@@ -12,19 +12,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mlengse/hyphen"
+    "url": "git+https://github.com/mlengse/hyphen.git"
   },
   "keywords": [
     "hyphen",
     "hyphenate",
     "hyphenation",
-    "hyphenator"
+    "hyphenator",
+    "indonesian",
+    "kbbi"
   ],
   "author": "mLengse (medotsys@gmail.com)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mlengse/hyphen/issues"
   },
-  "homepage": "https://ytiurin.github.io/hyphen",
+  "homepage": "https://github.com/mlengse/hyphen#readme",
   "browser": "./hyphen.js"
 }

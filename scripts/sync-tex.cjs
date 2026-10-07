@@ -31,7 +31,7 @@ const getSourceDir = arg => {
   return (
     fromArg ||
     process.env.HYPHEN_TEX_SOURCE ||
-    "../../pattern/tex-hyphen/hyph-utf8/tex/generic/hyph-utf8/patterns/tex"
+    "../pattern/tex-hyphen/hyph-utf8/tex/generic/hyph-utf8/patterns/tex"
   );
 };
 

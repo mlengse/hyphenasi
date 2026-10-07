@@ -19,7 +19,7 @@ const getBody = content => {
 };
 
 const sourceArg = process.argv[2];
-const sourceDir = resolve(__dirname, "..", sourceArg || process.env.HYPHEN_TEX_SOURCE || "../../pattern/tex-hyphen/hyph-utf8/tex/generic/hyph-utf8/patterns/tex");
+const sourceDir = resolve(__dirname, "..", sourceArg || process.env.HYPHEN_TEX_SOURCE || "../pattern/tex-hyphen/hyph-utf8/tex/generic/hyph-utf8/patterns/tex");
 
 const allowRaw = process.env.HYPHEN_DRIFT_ALLOW || "";
 const allowed = new Set(
