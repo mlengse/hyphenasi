@@ -68,6 +68,28 @@ describe("src/markers.js", () => {
     test("should insert hyphenChar at multiple marker indices", () => {
       expect(insertChar("hyphenation", "-", [2, 6, 7])).toBe("hy-phen-a-tion");
     });
+
+    test("should insert marker at start of string (index 0)", () => {
+      expect(insertChar("hello", "-", [0])).toBe("-hello");
+    });
+
+    test("should insert marker at end of string (index text.length)", () => {
+      expect(insertChar("hello", "-", [5])).toBe("hello-");
+    });
+
+    test("should support custom insertion characters and strings", () => {
+      expect(insertChar("hyphenation", "&shy;", [2, 6, 7])).toBe("hy&shy;phen&shy;a&shy;tion");
+      expect(insertChar("hello", "\u00AD", [2])).toBe("he\u00ADllo");
+      expect(insertChar("hello", "•", [2, 4])).toBe("he•ll•o");
+    });
+
+    test("should handle markers at start, middle, and end simultaneously", () => {
+      expect(insertChar("test", "-", [0, 2, 4])).toBe("-te-st-");
+    });
+
+    test("should handle empty text with empty markers", () => {
+      expect(insertChar("", "-", [])).toBe("");
+    });
   });
 
   describe("markersFromExceptionsDefinition", () => {
