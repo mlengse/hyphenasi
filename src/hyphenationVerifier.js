@@ -64,9 +64,9 @@ export function createHyphenationVerifier(verifiers, minWordLength) {
     return function (char1, char2) {
       accum += char1;
 
-      var skip = verifiers.reduce(function (skip, verify) {
-        return skip || verify(accumulate, [char1, char2]);
-      }, false);
+      var skip = verifiers.some(function (verify) {
+        return verify(accumulate, [char1, char2]);
+      });
 
       if (!skip) {
         if (isNotLetter(char1) && !isNotLetter(char2)) {
