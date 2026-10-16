@@ -22,7 +22,8 @@ export default defineConfig([
         ...globals.amd,
         ...globals.browser,
         ...globals.commonjs,
-        Promise: "readonly"
+        Promise: "readonly",
+        globalThis: "readonly"
       },
 
       ecmaVersion: 3,

@@ -15,7 +15,9 @@ var SETTING_DEFAULT_ASYNC = false,
   SETTING_NAME_MIN_WORD_LENGTH = "minWordLength";
 
 var _global =
-  typeof global === "object"
+  typeof globalThis !== "undefined"
+    ? globalThis
+    : typeof global === "object"
     ? global
     : typeof window === "object"
     ? window
