@@ -378,18 +378,22 @@
       ),
       levelsTable = patternsDefinition[0],
       patterns = patternsDefinition[1],
-      minWordLength =
+      minWordLength = parseInt(
         keyOrDefault(
           options,
           SETTING_NAME_MIN_WORD_LENGTH,
           SETTING_DEFAULT_MIN_WORD_LENGTH
-        ) >> 0,
-      cacheLimit =
+        ),
+        10
+      ),
+      cacheLimit = parseInt(
         keyOrDefault(
           options,
           SETTING_NAME_CACHE_LIMIT,
           SETTING_DEFAULT_CACHE_LIMIT
-        ) >> 0,
+        ),
+        10
+      ),
       skipHTML = keyOrDefault(options, SETTING_NAME_HTML, SETTING_DEFAULT_HTML),
       userExceptions = keyOrDefault(
         options,
@@ -429,9 +433,10 @@
           SETTING_NAME_HYPH_CHAR,
           hyphenChar
         ),
-        localMinWordLength =
-          keyOrDefault(options2, SETTING_NAME_MIN_WORD_LENGTH, minWordLength) >>
-          0,
+        localMinWordLength = parseInt(
+          keyOrDefault(options2, SETTING_NAME_MIN_WORD_LENGTH, minWordLength),
+          10
+        ),
         localUserExceptions = keyOrDefault(
           options2,
           SETTING_NAME_EXCEPTIONS,
