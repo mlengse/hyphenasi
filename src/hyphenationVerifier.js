@@ -64,9 +64,13 @@ export function createHyphenationVerifier(verifiers, minWordLength) {
     return function (char1, char2) {
       accum += char1;
 
-      var skip = verifiers.some(function (verify) {
-        return verify(accumulate, [char1, char2]);
-      });
+      var skip = false;
+      for (var i = 0; i < verifiers.length; i++) {
+        if (verifiers[i](accumulate, [char1, char2])) {
+          skip = true;
+          break;
+        }
+      }
 
       if (!skip) {
         if (isNotLetter(char1) && !isNotLetter(char2)) {
