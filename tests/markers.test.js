@@ -93,6 +93,10 @@ describe("src/markers.js", () => {
   });
 
   describe("markersFromExceptionsDefinition", () => {
+    test("should return an empty object for an empty exceptions list", () => {
+      expect(markersFromExceptionsDefinition([])).toEqual({});
+    });
+
     test("should create markers dictionary from hyphenated exception definitions", () => {
       const exceptions = ["hy-phen-a-tion", "ex-am-ple"];
       const result = markersFromExceptionsDefinition(exceptions);
@@ -109,6 +113,44 @@ describe("src/markers.js", () => {
 
       expect(result).toEqual({
         nohyphen: []
+      });
+    });
+
+    test("should convert keys to lowercase and strip hyphens from keys", () => {
+      const exceptions = ["HY-PHEN-A-TION", "Ex-Am-Ple"];
+      const result = markersFromExceptionsDefinition(exceptions);
+
+      expect(result).toEqual({
+        hyphenation: [2, 6, 7],
+        example: [2, 4]
+      });
+    });
+
+    test("should support non-Latin and accented characters", () => {
+      const exceptions = ["mün-chen", "пе-ре-крё-сток"];
+      const result = markersFromExceptionsDefinition(exceptions);
+
+      expect(result).toEqual({
+        münchen: [3],
+        перекрёсток: [2, 4, 7]
+      });
+    });
+
+    test("should handle consecutive hyphens", () => {
+      const exceptions = ["a--b"];
+      const result = markersFromExceptionsDefinition(exceptions);
+
+      expect(result).toEqual({
+        ab: [1, 1]
+      });
+    });
+
+    test("should overwrite earlier entries if duplicate normalized keys are provided", () => {
+      const exceptions = ["hy-phen", "HYPHEN", "hy-ph-en"];
+      const result = markersFromExceptionsDefinition(exceptions);
+
+      expect(result).toEqual({
+        hyphen: [2, 4]
       });
     });
   });
