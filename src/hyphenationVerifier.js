@@ -10,15 +10,15 @@ var isNotLetter = RegExp.prototype.test.bind(
 export function createHTMLVerifier() {
   var skip = false;
 
-  return function (accumulate, chars) {
+  return function (accumulate, char1, char2) {
     if (skip) {
-      if (chars[0] === ">") {
+      if (char1 === ">") {
         accumulate();
         skip = false;
       }
     } else if (
-      chars[0] === "<" &&
-      (!isNotLetter(chars[1]) || chars[1] === "/")
+      char1 === "<" &&
+      (!isNotLetter(char2) || char2 === "/")
     ) {
       skip = true;
     }
@@ -30,13 +30,13 @@ export function createHTMLVerifier() {
 export function createHyphenCharVerifier(hyphenChar) {
   var skip = false;
 
-  return function (accumulate, chars) {
+  return function (accumulate, char1, char2) {
     if (skip) {
-      if (!isNotLetter(chars[0]) && isNotLetter(chars[1])) {
+      if (!isNotLetter(char1) && isNotLetter(char2)) {
         accumulate();
         skip = false;
       }
-    } else if (!isNotLetter(chars[0]) && chars[1] === hyphenChar) {
+    } else if (!isNotLetter(char1) && char2 === hyphenChar) {
       skip = true;
     }
 
@@ -66,7 +66,7 @@ export function createHyphenationVerifier(verifiers, minWordLength) {
 
       var skip = false;
       for (var i = 0; i < verifiers.length; i++) {
-        if (verifiers[i](accumulate, [char1, char2])) {
+        if (verifiers[i](accumulate, char1, char2)) {
           skip = true;
           break;
         }
