@@ -320,15 +320,17 @@
   var SETTING_NAME_HYPH_CHAR = "hyphenChar";
   var SETTING_NAME_MIN_WORD_LENGTH = "minWordLength";
   var _global =
-    typeof global === "object"
-      ? global
-      : typeof window === "object"
-        ? window
-        : typeof self === "object"
-          ? self
-          : false
-            ? void 0
-            : {};
+    typeof globalThis !== "undefined"
+      ? globalThis
+      : typeof global === "object"
+        ? global
+        : typeof window === "object"
+          ? window
+          : typeof self === "object"
+            ? self
+            : false
+              ? void 0
+              : {};
   function extend(target, source) {
     target = target || {};
     for (var key in source) {
