@@ -51,21 +51,6 @@ const makeGlobalName = tag =>
   tag.substr(0, 1).toUpperCase() +
   tag.substr(1).replace(/-\w/g, a => a.substr(1).toUpperCase());
 
-const evalTex = texCode => {
-  var patterns, hyphenation, input;
-
-  try {
-    return (() => {
-      eval(tex2js(texCode));
-
-      return [patterns, hyphenation, input];
-    })();
-  } catch (e) {
-    console.error("Failed to parse TeX pattern:", e.message);
-    return [[], [], undefined];
-  }
-};
-
 const purify = (patterns, hyphenation) => [
   patterns.filter ? patterns.filter(a => a !== " ") : patterns,
   (hyphenation || []).filter(a => a !== "")
@@ -87,14 +72,14 @@ const markersFromExceptionsDefinition = exceptionsList =>
 /******************************************************************************/
 console.log(`Porting patterns`);
 
-const { tex2js } = require("./tex2js.cjs");
+const { parseTex } = require("./parseTex.cjs");
 const { createPatternTrie } = require("./createPatternTrie.cjs");
 
 buildFiles(
   readdirSync(pathTo(DIR_TEX)).filter(a => ~a.indexOf(".tex")),
   filename => pathTo(DIR_PATTERNS, tagFromFilename(filename) + ".js"),
   filename => {
-    let [patterns, hyphenation, input] = evalTex(
+    let [patterns, hyphenation, input] = parseTex(
       readFileSync(pathTo(DIR_TEX, filename), "utf8")
     );
 
@@ -105,7 +90,7 @@ buildFiles(
       if (!existsSync(inputPath)) {
         console.warn(`Warning: Input file not found: ${input}`);
       } else {
-        [patterns, hyphenation2] = evalTex(
+        [patterns, hyphenation2] = parseTex(
           readFileSync(inputPath, "utf8")
         );
 
