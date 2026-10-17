@@ -93,7 +93,7 @@ export function start(
               var keys = Object.keys(cache);
 
               for (var i = 0; i < keys.length; i++) {
-                if (keys[i] !== CACHE_COUNT_KEY) delete cache[keys[i]];
+                delete cache[keys[i]];
               }
 
               cache[CACHE_COUNT_KEY] = 1;
