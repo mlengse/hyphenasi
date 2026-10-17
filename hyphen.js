@@ -141,54 +141,23 @@
     }, {});
   }
 
-  function createCharIterator(str) {
-    var i = 0;
-    function nextChar() {
-      return str[i++];
-    }
-    return nextChar;
-  }
-  function createStringSlicer(str) {
-    var i = 0,
-      slice = str;
-    function next() {
-      slice = str.slice(i++);
-      if (slice.length < 3) {
-        return;
-      }
-      return slice;
-    }
-    function isFirstCharacter() {
-      return i === 2;
-    }
-    return [next, isFirstCharacter];
-  }
   function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
     var levels = new Array(text.length + 1),
-      loweredChars = ("." + loweredText + ".").split(""),
-      wordSlice,
-      letter,
+      loweredChars = "." + loweredText + ".",
+      len = loweredChars.length,
+      maxStart = len - 3,
       triePtr,
       trieNode,
       patternLevelsIndex,
       patternLevels,
-      patternEntityIndex = -1,
-      slicer,
-      nextSlice,
-      isFirstCharacter,
-      nextLetter;
+      patternEntityIndex,
+      letter;
     for (var i = levels.length; i--;) levels[i] = 0;
-    slicer = createStringSlicer(loweredChars);
-    nextSlice = slicer[0];
-    isFirstCharacter = slicer[1];
-    while ((wordSlice = nextSlice())) {
-      patternEntityIndex++;
-      if (isFirstCharacter()) {
-        patternEntityIndex--;
-      }
+    for (var start2 = 0; start2 <= maxStart; start2++) {
+      patternEntityIndex = start2 === 0 ? 0 : start2 - 1;
       triePtr = patternTrie;
-      nextLetter = createCharIterator(wordSlice);
-      while ((letter = nextLetter())) {
+      for (var j = start2; j < len; j++) {
+        letter = loweredChars[j];
         if ((trieNode = triePtr[letter]) === void 0) {
           break;
         }
@@ -206,11 +175,12 @@
           continue;
         }
         patternLevels = levelsTable[patternLevelsIndex];
-        for (var k = 0; k < patternLevels.length; k++)
-          levels[patternEntityIndex + k] = Math.max(
-            patternLevels[k],
-            levels[patternEntityIndex + k]
-          );
+        for (var k = 0; k < patternLevels.length; k++) {
+          var idx = patternEntityIndex + k;
+          if (patternLevels[k] > levels[idx]) {
+            levels[idx] = patternLevels[k];
+          }
+        }
       }
     }
     levels[0] =

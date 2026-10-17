@@ -1,68 +1,26 @@
 import { levelsToMarkers } from "./markers.js";
 
-function createCharIterator(str) {
-  var i = 0;
-
-  function nextChar() {
-    return str[i++];
-  }
-
-  return nextChar;
-}
-
-function createStringSlicer(str) {
-  var i = 0,
-    slice = str;
-
-  function next() {
-    slice = str.slice(i++);
-
-    if (slice.length < 3) {
-      return;
-    }
-
-    return slice;
-  }
-
-  function isFirstCharacter() {
-    return i === 2;
-  }
-
-  return [next, isFirstCharacter];
-}
-
 export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
   var levels = new Array(text.length + 1),
-    loweredChars = ("." + loweredText + ".").split(""),
-    wordSlice,
-    letter,
+    loweredChars = "." + loweredText + ".",
+    len = loweredChars.length,
+    maxStart = len - 3,
     triePtr,
     trieNode,
     patternLevelsIndex,
     patternLevels,
-    patternEntityIndex = -1,
-    slicer,
-    nextSlice,
-    isFirstCharacter,
-    nextLetter;
+    patternEntityIndex,
+    letter;
 
   for (var i = levels.length; i--; ) levels[i] = 0;
 
-  slicer = createStringSlicer(loweredChars);
-  nextSlice = slicer[0];
-  isFirstCharacter = slicer[1];
-
-  while ((wordSlice = nextSlice())) {
-    patternEntityIndex++;
-    if (isFirstCharacter()) {
-      patternEntityIndex--;
-    }
-
+  for (var start = 0; start <= maxStart; start++) {
+    patternEntityIndex = start === 0 ? 0 : start - 1;
     triePtr = patternTrie;
 
-    nextLetter = createCharIterator(wordSlice);
+    for (var j = start; j < len; j++) {
+      letter = loweredChars[j];
 
-    while ((letter = nextLetter())) {
       if ((trieNode = triePtr[letter]) === undefined) {
         break;
       }
@@ -85,11 +43,12 @@ export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
 
       patternLevels = levelsTable[patternLevelsIndex];
 
-      for (var k = 0; k < patternLevels.length; k++)
-        levels[patternEntityIndex + k] = Math.max(
-          patternLevels[k],
-          levels[patternEntityIndex + k]
-        );
+      for (var k = 0; k < patternLevels.length; k++) {
+        var idx = patternEntityIndex + k;
+        if (patternLevels[k] > levels[idx]) {
+          levels[idx] = patternLevels[k];
+        }
+      }
     }
   }
 
@@ -99,7 +58,7 @@ export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
 
   DEV: {
     console.log(
-      loweredChars.join(""),
+      loweredChars,
       levels.join(""),
       levelsToMarkers(levels).join()
     );
