@@ -70,17 +70,13 @@ export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
       triePtr = {};
       patternLevelsIndex = -1;
 
-      switch (Object.prototype.toString.call(trieNode)) {
-        case "[object Array]":
-          triePtr = trieNode[0];
-          patternLevelsIndex = trieNode[1];
-          break;
-        case "[object Object]":
-          triePtr = trieNode;
-          break;
-        case "[object Number]":
-          patternLevelsIndex = trieNode;
-          break;
+      if (Array.isArray(trieNode)) {
+        triePtr = trieNode[0];
+        patternLevelsIndex = trieNode[1];
+      } else if (typeof trieNode === "number") {
+        patternLevelsIndex = trieNode;
+      } else {
+        triePtr = trieNode;
       }
 
       if (patternLevelsIndex < 0) {
