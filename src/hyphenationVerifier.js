@@ -36,7 +36,8 @@ export function createHyphenCharVerifier(hyphenChar) {
         accumulate();
         skip = false;
       }
-    } else if (!isNotLetter(char1) && char2 === hyphenChar) {
+    } else if (char2 === hyphenChar && !isNotLetter(char1)) {
+      // Short-circuit: check cheap character equality before regex call
       skip = true;
     }
 
@@ -73,11 +74,13 @@ export function createHyphenationVerifier(verifiers, minWordLength) {
       }
 
       if (!skip) {
-        if (isNotLetter(char1) && !isNotLetter(char2)) {
-          accumulate();
-        }
+        // Cache regex results to avoid redundant calls per character pair
+        var isNotLetter1 = isNotLetter(char1);
+        var isNotLetter2 = isNotLetter(char2);
 
-        if (!isNotLetter(char1) && isNotLetter(char2)) {
+        if (isNotLetter1 && !isNotLetter2) {
+          accumulate();
+        } else if (!isNotLetter1 && isNotLetter2) {
           if (accum.length >= minWordLength) {
             return resolveWith([accum0, accum]);
           } else {
