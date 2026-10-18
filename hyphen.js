@@ -61,7 +61,7 @@
           accumulate();
           skip = false;
         }
-      } else if (!isNotLetter(char1) && char2 === hyphenChar) {
+      } else if (char2 === hyphenChar && !isNotLetter(char1)) {
         skip = true;
       }
       return skip;
@@ -90,10 +90,11 @@
           }
         }
         if (!skip) {
-          if (isNotLetter(char1) && !isNotLetter(char2)) {
+          var isNotLetter1 = isNotLetter(char1);
+          var isNotLetter2 = isNotLetter(char2);
+          if (isNotLetter1 && !isNotLetter2) {
             accumulate();
-          }
-          if (!isNotLetter(char1) && isNotLetter(char2)) {
+          } else if (!isNotLetter1 && isNotLetter2) {
             if (accum.length >= minWordLength) {
               return resolveWith([accum0, accum]);
             } else {

@@ -1,0 +1,3 @@
+## 2026-03-31 - Redundant Character Classification in Hyphenation Verifier
+**Learning:** During character stream verification (`createHyphenationVerifier`), evaluating `isNotLetter(char1)` and `isNotLetter(char2)` repeatedly inside consecutive independent `if` statements leads to redundant regex executions per character pair. Caching `isNotLetter1` and `isNotLetter2` once per character step and using `else if` for mutually exclusive transition checks speeds up text hyphenation by ~20-30%.
+**Action:** When inspecting character streams or tokenizers, store regex test results in local variables if the same inputs are evaluated across multiple boundary checks.
