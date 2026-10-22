@@ -58,10 +58,9 @@ function exceptionsFromMarkers(markers, hyphenChar) {
 
 function exceptionsFromDefinition(exceptionsList, hyphenChar) {
   return exceptionsList.reduce(function (exceptions, exception) {
-    exceptions["~" + exception.replace(/\-/g, "")] = exception.replace(
-      /\-/g,
-      hyphenChar
-    );
+    var cleanWord = exception.replace(/\-/g, "");
+    exceptions["~" + cleanWord] =
+      hyphenChar === "" ? cleanWord : exception.replace(/\-/g, hyphenChar);
     return exceptions;
   }, {});
 }
