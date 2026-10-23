@@ -8,20 +8,18 @@ export function levelsToMarkers(levels) {
 }
 
 export function insertChar(text, hyphenChar, markers) {
-  if (markers.length === 0) {
+  var len = markers.length;
+  if (len === 0) {
     return text;
   }
 
-  var resultText = [text.slice(0, markers[0])];
+  var resultText = text.slice(0, markers[0]);
 
-  if (markers.length > 1)
-    for (var i = 0, j = 1; j < markers.length; i++, j++) {
-      resultText.push(text.slice(markers[i], markers[j]));
-    }
+  for (var i = 0; i < len - 1; i++) {
+    resultText += hyphenChar + text.slice(markers[i], markers[i + 1]);
+  }
 
-  resultText.push(text.slice(markers[markers.length - 1]));
-
-  return resultText.join(hyphenChar);
+  return resultText + hyphenChar + text.slice(markers[len - 1]);
 }
 
 export function markersFromExceptionsDefinition(exceptionsList) {
