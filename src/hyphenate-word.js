@@ -1,7 +1,7 @@
 import { levelsToMarkers } from "./markers.js";
 
 export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
-  var levels = new Array(text.length + 1),
+  var levels = new Uint8Array(text.length + 1),
     loweredChars = "." + loweredText + ".",
     len = loweredChars.length,
     maxStart = len - 3,
@@ -11,8 +11,6 @@ export function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
     patternLevels,
     patternEntityIndex,
     letter;
-
-  for (var i = levels.length; i--; ) levels[i] = 0;
 
   for (var start = 0; start <= maxStart; start++) {
     patternEntityIndex = start === 0 ? 0 : start - 1;
