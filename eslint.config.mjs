@@ -23,6 +23,7 @@ export default defineConfig([
         ...globals.browser,
         ...globals.commonjs,
         Promise: "readonly",
+        Uint8Array: "readonly",
         globalThis: "readonly"
       },
 

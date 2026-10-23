@@ -143,7 +143,7 @@
   }
 
   function hyphenateWord(text, loweredText, levelsTable, patternTrie) {
-    var levels = new Array(text.length + 1),
+    var levels = new Uint8Array(text.length + 1),
       loweredChars = "." + loweredText + ".",
       len = loweredChars.length,
       maxStart = len - 3,
@@ -153,7 +153,6 @@
       patternLevels,
       patternEntityIndex,
       letter;
-    for (var i = levels.length; i--;) levels[i] = 0;
     for (var start2 = 0; start2 <= maxStart; start2++) {
       patternEntityIndex = start2 === 0 ? 0 : start2 - 1;
       triePtr = patternTrie;
