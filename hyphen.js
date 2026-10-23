@@ -302,7 +302,14 @@
   function extend(target, source) {
     target = target || {};
     for (var key in source) {
-      target[key] = source[key];
+      if (
+        Object.prototype.hasOwnProperty.call(source, key) &&
+        key !== "__proto__" &&
+        key !== "constructor" &&
+        key !== "prototype"
+      ) {
+        target[key] = source[key];
+      }
     }
     return target;
   }
